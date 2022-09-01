@@ -85,10 +85,11 @@ class Company(Scraper):
         return self.__get_text_under_subtitle(driver.find_element(By.CLASS_NAME, class_name))
 
     def scrape(self, get_employees=True, close_on_complete=True):
-        if self.is_signed_in():
-            self.scrape_logged_in(get_employees = get_employees, close_on_complete = close_on_complete)
-        else:
-            self.scrape_not_logged_in(get_employees = get_employees, close_on_complete = close_on_complete)
+        self.scrape_logged_in(get_employees = get_employees, close_on_complete = close_on_complete)
+        # if self.is_signed_in():
+        #     self.scrape_logged_in(get_employees = get_employees, close_on_complete = close_on_complete)
+        # else:
+        #     self.scrape_not_logged_in(get_employees = get_employees, close_on_complete = close_on_complete)
 
     def __parse_employee__(self, employee_raw):
 
