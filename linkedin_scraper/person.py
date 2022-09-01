@@ -161,7 +161,7 @@ class Person(Scraper):
             exp = None
 
         if exp is not None:
-            for position in exp.find_elements(By.CSS_SELECTOR, ".pv-position-entity"):
+            for position in exp.find_elements(By.CLASS_NAME, "pv-position-entity"):
                 position_title = position.find_element(By.TAG_NAME, "h3").text.strip()
 
                 try:
@@ -231,7 +231,7 @@ class Person(Scraper):
                         .text.strip()
                     )
                     times = (
-                        school.find_element(By.CSS_SELECTOR, ".pv-entity__dates")
+                        school.find_element(By.CLASS_NAME, "pv-entity__dates")
                         .find_elements(By.TAG_NAME, "span")[1]
                         .text.strip()
                     )
@@ -300,13 +300,13 @@ class Person(Scraper):
             _ = WebDriverWait(driver, self.__WAIT_FOR_ELEMENT_TIMEOUT).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "mn-connections"))
             )
-            connections = driver.find_element(By.CSS_SELECTOR, ".mn-connections")
+            connections = driver.find_element(By.CLASS_NAME, "mn-connections")
             if connections is not None:
-                for conn in connections.find_elements(By.CSS_SELECTOR, ".mn-connection-card"):
-                    anchor = conn.find_element(By.CSS_SELECTOR, ".mn-connection-card__link")
+                for conn in connections.find_elements(By.CLASS_NAME, "mn-connection-card"):
+                    anchor = conn.find_element(By.CLASS_NAME, "mn-connection-card__link")
                     url = anchor.get_attribute("href")
-                    name = conn.find_element(By.CSS_SELECTOR, ".mn-connection-card__details").find_element(By.CSS_SELECTOR, ".mn-connection-card__name").text.strip()
-                    occupation = conn.find_element(By.CSS_SELECTOR, ".mn-connection-card__details").find_element(By.CSS_SELECTOR, ".mn-connection-card__occupation").text.strip()
+                    name = conn.find_element(By.CLASS_NAME, "mn-connection-card__details").find_element(By.CLASS_NAME, "mn-connection-card__name").text.strip()
+                    occupation = conn.find_element(By.CLASS_NAME, "mn-connection-card__details").find_element(By.CLASS_NAME, "mn-connection-card__occupation").text.strip()
 
                     contact = Contact(name=name, occupation=occupation, url=url)
                     self.add_contact(contact)
@@ -333,7 +333,7 @@ class Person(Scraper):
             _ = WebDriverWait(driver, self.__WAIT_FOR_ELEMENT_TIMEOUT).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "experience"))
             )
-            exp = driver.find_element(By.CSS_SELECTOR, ".experience")
+            exp = driver.find_element(By.CLASS_NAME, "experience")
         except:
             exp = None
 
@@ -384,22 +384,22 @@ class Person(Scraper):
         )
 
         # get education
-        edu = driver.find_element(By.CSS_SELECTOR, ".education__list")
-        for school in edu.find_elements(By.CSS_SELECTOR, ".result-card"):
-            university = school.find_element(By.CSS_SELECTOR(
-                ".result-card__title"
-            )).text.strip()
+        edu = driver.find_element(By.CLASS_NAME, "education__list")
+        for school in edu.find_elements(By.CLASS_NAME, "result-card"):
+            university = school.find_element(By.CLASS_NAME, 
+                "result-card__title"
+            ).text.strip()
             degree = school.find_element(By.CSS_SELECTOR(
                 ".education__item--degree-info"
             )).text.strip()
             try:
-                times = school.find_element(By.CSS_SELECTOR, ".date-range")
-                from_date = times.find_element(By.CSS_SELECTOR(
-                    ".date-range__start-date"
-                )).text.strip()
-                to_date = times.find_element(By.CSS_SELECTOR(
-                    ".date-range__end-date"
-                )).text.strip()
+                times = school.find_element(By.CLASS_NAME, "date-range")
+                from_date = times.find_element(By.CLASS_NAME, 
+                    "date-range__start-date"
+                ).text.strip()
+                to_date = times.find_element(By.CLASS_NAME, 
+                    "date-range__end-date"
+                ).text.strip()
             except:
                 from_date, to_date = (None, None)
             education = Education(from_date=from_date, to_date=to_date, degree=degree)
